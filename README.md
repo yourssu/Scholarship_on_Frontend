@@ -26,6 +26,8 @@ pnpm create next-app@latest
 
 - 여기서 Next.js는 app 라우터를 지원해주고 있고, 이에 따라 라우팅을 하는 방식을 미리 알면 좋을 것 같습니다. app 하위에 생성한 폴더가 경로 이름이 되고, 폴더 내부에 page.tsx 파일을 만들면 해당 파일이 경로로 들어가면 보여주는 화면이 됩니다. 기본적인 페이지 구조에 맞춰 초기 설계를 해 둔 상태니 해당 글을 참고하여 확인하면 좋을것 같아요 :)
 
+---
+
 **eslint와 prettier 설정**
 
 - eslint의 포맷팅 기능과 prettier의 설정 충돌을 막기 위해 `eslint-config-prettier` 패키지 설치 후 적용(extends에 'prettier' 추가)
@@ -81,6 +83,8 @@ pnpm add -D prettier-plugin-tailwindcss
 
 <br />
 
+---
+
 **폰트 설정**
 
 1. 공식 깃허브에서 PretendardVariable.woff2 파일 다운로드
@@ -120,6 +124,8 @@ export default function RootLayout({
   );
 }
 ```
+
+---
 
 **타이포와 폰트 디자인 시스템 적용**
 
@@ -199,3 +205,11 @@ export default function RootLayout({
   --color-primary-500: #4097f9;
 }
 ```
+
+---
+
+## 브랜치 전략
+
+- main과 develop은 서로 rebase
+- develop에서 feature 브랜치를 파서 작업을 한 후 squash merge로 develop에 머지 
+
