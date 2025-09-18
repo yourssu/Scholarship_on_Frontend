@@ -211,5 +211,39 @@ export default function RootLayout({
 ## 브랜치 전략
 
 - main과 develop은 서로 rebase
-- develop에서 feature 브랜치를 파서 작업을 한 후 squash merge로 develop에 머지 
+- develop에서 feature 브랜치를 파서 작업을 한 후 squash merge로 develop에 머지
 
+### 폴더 구조
+
+```
+├── src/
+│   ├── app/
+│   │   ├── info-list/
+│   │   │   ├── _components/    # info-list 페이지 전용 컴포넌트
+│   │   │   ├── _utils/         # info-list 전용 유틸 함수
+│   │   │   ├── _hooks/         # info-list 전용 훅
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── write-info/
+│   │   │   ├── _components/    # write-info 페이지 전용 UI
+│   │   │   ├── _utils/         # write-info 전용 유틸 함수
+│   │   │   ├── _hooks/         # write-info 훅
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx          # 최상위 레이아웃
+│   │   └── page.tsx            # 최상위 페이지
+│   ├── api/                    # API 함수 및 훅
+│   ├── components/             # 재사용 UI 컴포넌트 (전체 공통) -> common 폴더라고 생각하면 될 것 같아요
+│   ├── hooks/                  # 전역 커스텀 훅
+│   ├── utils/                  # 공용 유틸리티 함수
+│   ├── types/                  # 타입 정의
+│   └── constants/              # 상수 및 enum
+├── public/                     # 정적 파일 (이미지, 폰트 등)
+├── next.config.js
+├── tsconfig.json
+└── package.json
+
+```
+
+- 앱 라우터 내에서 앞에 \_를 붙이면 라우터가 감지하지 못합니다.
+- 해당 특성을 이용해 코드의 응집도를 높이고자 해당 페이지에서만 사용하는 컴포넌트는 만들어놓은 것과 같이
+- 앞에 \_를 붙여 페이지 폴더 내에 만들어서 사용하면 좋을 것 같습니다.
