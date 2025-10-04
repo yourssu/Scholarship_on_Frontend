@@ -48,7 +48,7 @@ export function ResultList({
   facility,
 }: ResultListProp) {
   return (
-    <div className="w-full max-w-[22.5rem]">
+    <div className="w-full max-w-[22.5rem] self-start">
       <ResultListHeader />
       <ResultItem
         title={title || '소득연계형 국가장학금'}
