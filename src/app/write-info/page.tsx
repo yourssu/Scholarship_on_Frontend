@@ -219,7 +219,8 @@ export default function WriteInfoPage() {
           height={114}
           src={'/image/scholar_logo.png'}
           alt="로고 이미지"
-          className="mx-auto mb-10"
+          className="mx-auto mb-10 cursor-pointer"
+          onClick={() => router.push('/')}
         />
         <div className="flex flex-col gap-3 px-8">
           {formFields.map(field => (
