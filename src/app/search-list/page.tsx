@@ -143,7 +143,7 @@ export default function SearchListPage() {
       </section>
       <section>
         {isLoading && scholarships.length === 0 ? (
-          <p className="font-h3-18 text-center">검색 중...</p>
+          <p className="font-h3-18 mt-10 text-center">검색 중...</p>
         ) : !isLoading && totalCount === 0 ? (
           // 검색 결과가 없을 때
           <div className="font-h3-18 flex flex-col items-center justify-center pt-20 text-center">
@@ -152,7 +152,7 @@ export default function SearchListPage() {
           </div>
         ) : (
           // 검색 결과가 있을 때
-          <>
+          <div className="px-4">
             <ResultList scholarships={scholarships} />
 
             {hasNextPage && (
@@ -160,7 +160,7 @@ export default function SearchListPage() {
                 {isLoading && <p>로딩 중...</p>}
               </div>
             )}
-          </>
+          </div>
         )}
       </section>
     </div>
