@@ -1,8 +1,6 @@
-import { SVGProps } from 'react';
+import { IconProps } from '@/types/icon';
 
-interface UnderArrowIconProps extends SVGProps<SVGSVGElement> {}
-
-export function UnderArrowIcon({ fill, ...props }: UnderArrowIconProps) {
+export function UnderArrowIcon({ fill, ...props }: IconProps) {
   return (
     <svg
       width="18"
