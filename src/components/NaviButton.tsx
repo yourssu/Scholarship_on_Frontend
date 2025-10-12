@@ -1,12 +1,23 @@
 'use client';
 
+import { UserInfo } from '@/api/types/scholarship';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface NaviButtonProps {
   onRecommendClick?: () => void;
   onMyClick?: () => void;
   className?: string;
 }
+
+const USER_INFO_KEYS: (keyof UserInfo)[] = [
+  'school',
+  'classOfSchool',
+  'majorOfSchool',
+  'location',
+  'levelOfIncome',
+  'grade',
+];
 
 export default function NaviButton({
   onRecommendClick,
@@ -15,8 +26,13 @@ export default function NaviButton({
 }: NaviButtonProps) {
   const pathname = usePathname();
 
-  // Mock 데이터 - 로그인 상태 (나중에 API 연동시 변경)
-  const isLoggedIn = true;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // USER_INFO_KEYS 배열의 모든 키가 localStorage에 존재하는지 확인
+    const hasAllInfo = USER_INFO_KEYS.every(key => localStorage.getItem(key));
+    setIsLoggedIn(hasAllInfo);
+  }, []);
 
   if (pathname === '/') {
     return (
@@ -71,7 +87,7 @@ export default function NaviButton({
     );
   }
 
-  if (pathname === '/search') {
+  if (pathname === '/search-list') {
     return (
       <>
         <button
