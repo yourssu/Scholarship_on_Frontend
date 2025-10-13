@@ -16,7 +16,7 @@ const PAGE_SIZE = 15;
 export default function Home() {
   const router = useRouter();
 
-  const [sortKey, setSortKey] = useState<SortType>('latest');
+  // const [sortKey, setSortKey] = useState<SortType>('latest');
   const { searchKeyword, setSearchKeyword, handleKeyDown, handleSearch } =
     useSearchKey();
 
@@ -75,9 +75,9 @@ export default function Home() {
     };
   }, [isExpanded, hasNextPage, loadMoreScholarships]);
 
-  // useEffect(() => {
-  //   console.log('장학금 데이터', scholarships);
-  // }, [scholarships]);
+  useEffect(() => {
+    console.log('장학금 데이터', scholarships);
+  }, [scholarships]);
 
   return (
     <div className="min-h-screen items-center">
@@ -113,13 +113,13 @@ export default function Home() {
           src={'/image/main-banner.png'}
           alt="메인 배너"
           className="mt-7 cursor-pointer"
-          onClick={() => router.push('/write-info')}
+          onClick={() => router.push('/info-list')}
         />
       </section>
       <section className="mt-7 w-full px-3.5">
         <div className="flex h-[2.5rem] w-full items-center justify-between">
           <p className="font-h5-17">장학금 공고 전체보기</p>
-          <select
+          {/* <select
             value={sortKey}
             onChange={e => setSortKey(e.target.value as SortType)}
             className="font-t3-12"
@@ -127,7 +127,7 @@ export default function Home() {
             <option value="popular">인기순</option>
             <option value="latest">최신순</option>
             <option value="recommended">추천순</option>
-          </select>
+          </select> */}
         </div>
         <div className="flex-1">
           <ResultList
