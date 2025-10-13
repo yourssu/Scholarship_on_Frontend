@@ -9,12 +9,16 @@ import { useSearchKey } from '@/hooks/useSearchKey';
 import { Scholarship } from '@/api/types/scholarship';
 import { getScholarshipList } from '@/api/scholarshipAPI';
 import { UnderArrowIcon } from './info-list/_components/UnderArrowIcon';
+import ScholarshipDetailModal from './_components/ScholarshipDetailModal';
 
-type SortType = 'popular' | 'latest' | 'suggest';
+// type SortType = 'popular' | 'latest' | 'suggest';
 const PAGE_SIZE = 15;
 
 export default function Home() {
   const router = useRouter();
+
+  const [selectedScholarship, setSelectedScholarship] =
+    useState<Scholarship | null>(null);
 
   // const [sortKey, setSortKey] = useState<SortType>('latest');
   const { searchKeyword, setSearchKeyword, handleKeyDown, handleSearch } =
@@ -25,6 +29,25 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true); // 다음 페이지 존재 여부
   const loaderRef = useRef<HTMLDivElement>(null); // 감지할 요소
+
+  // --- 모달 관련 핸들러 및 Effect 추가 ---
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '') setSelectedScholarship(null);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const handleItemClick = (item: Scholarship) => {
+    setSelectedScholarship(item);
+    window.location.hash = 'detail';
+  };
+
+  const handleCloseModal = useCallback(() => {
+    setSelectedScholarship(null);
+    if (window.location.hash === '#detail') router.back();
+  }, [router]);
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -132,6 +155,7 @@ export default function Home() {
         <div className="flex-1">
           <ResultList
             scholarships={isExpanded ? scholarships : scholarships.slice(0, 5)}
+            onItemClick={handleItemClick}
           />
         </div>
         <div className="flex w-full justify-center py-6">
@@ -157,6 +181,13 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      {selectedScholarship && (
+        <ScholarshipDetailModal
+          scholarship={selectedScholarship}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }
