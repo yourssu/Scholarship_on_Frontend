@@ -42,6 +42,12 @@
   line-height: 1rem;
   letter-spacing: -0.0293em;
 }
+@utility font-t1-14-semibold {
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  letter-spacing: -0.0293em;
+}
 @utility font-t2-14 {
   font-weight: 600;
   font-size: 0.875rem;
