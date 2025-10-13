@@ -3,17 +3,23 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Scholarship } from '@/api/types/scholarship';
 import { searchScholarships } from '@/api/scholarshipAPI';
 import { ResultList } from '@/app/info-list/_components/ResultItem';
+import ScholarshipDetailModal from '@/app/_components/ScholarshipDetailModal';
 
 const PAGE_SIZE = 15;
 
 export default function SearchResults() {
+  const router = useRouter();
+
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') ?? '';
+
+  const [selectedScholarship, setSelectedScholarship] =
+    useState<Scholarship | null>(null);
 
   const [scholarships, setScholarships] = useState<Scholarship[]>([]);
   const [page, setPage] = useState(0);
@@ -21,6 +27,25 @@ export default function SearchResults() {
   const [hasNextPage, setHasNextPage] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const loaderRef = useRef<HTMLDivElement>(null);
+
+  // --- 모달 관련 핸들러 및 Effect 추가 ---
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '') setSelectedScholarship(null);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const handleItemClick = (item: Scholarship) => {
+    setSelectedScholarship(item);
+    window.location.hash = 'detail';
+  };
+
+  const handleCloseModal = useCallback(() => {
+    setSelectedScholarship(null);
+    if (window.location.hash === '#detail') router.back();
+  }, [router]);
 
   const loadMoreResults = useCallback(async () => {
     if (!keyword || isLoading || !hasNextPage) return;
@@ -104,11 +129,18 @@ export default function SearchResults() {
 
   return (
     <div className="px-4">
-      <ResultList scholarships={scholarships} />
+      <ResultList scholarships={scholarships} onItemClick={handleItemClick} />
       {hasNextPage && (
         <div ref={loaderRef} className="p-4 text-center">
           {isLoading && <p>로딩 중...</p>}
         </div>
+      )}
+
+      {selectedScholarship && (
+        <ScholarshipDetailModal
+          scholarship={selectedScholarship}
+          onClose={handleCloseModal}
+        />
       )}
     </div>
   );
