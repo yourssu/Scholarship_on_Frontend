@@ -1,7 +1,7 @@
 'use client';
-
+import { useRouter } from 'next/navigation';
 import { Scholarship } from '@/api/types/scholarship';
-import { Button } from '@/components';
+import { Button, Header, NaviButton } from '@/components';
 import { formatDateWithDay } from '../info-list/_utils/recruitmentUtils';
 import { DetailDescription } from '../info-modal/_components/DetailDescription';
 import { ShortDescription } from '../info-modal/_components/ScholarshipName';
@@ -16,13 +16,18 @@ export default function ScholarshipDetailModal({
   scholarship,
   onClose,
 }: ScholarshipDetailModalProps) {
+  const router = useRouter();
+
   const applicationPeriod = `${formatDateWithDay(scholarship.모집시작일)} ~ ${formatDateWithDay(scholarship.모집종료일)}`;
 
   const eligibilityContent = (
     <div className="flex flex-col text-black">
       <span>자격제한: {scholarship['자격제한 상세내용']}</span>
+      <br />
       <span>추천필요여부: {scholarship['추천필요여부 상세내용']}</span>
-      <span>{scholarship['지역거주여부 상세내용']}</span>
+      <br />
+      <span>지역거주여부: {scholarship['지역거주여부 상세내용']}</span>
+      <br />
       <span>{scholarship['특정자격 상세내용']}</span>
     </div>
   );
@@ -34,17 +39,19 @@ export default function ScholarshipDetailModal({
     >
       {/* 모달 컨텐츠 (이벤트 버블링 방지) */}
       <div
-        className="relative h-full w-full max-w-2xl overflow-y-auto bg-white p-8"
+        className="relative h-full w-full max-w-2xl overflow-y-auto bg-white"
         onClick={e => e.stopPropagation()}
       >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-2xl font-bold"
-        >
-          &times;
-        </button>
+        <Header
+          rightElement={
+            <NaviButton
+              onRecommendClick={() => router.push('/info-list')}
+              onMyClick={() => router.push('/write-info')}
+            />
+          }
+        />
 
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-10 px-8">
           {/* [수정] description prop 제거 */}
           <ShortDescription name={scholarship.상품명} />
 
@@ -56,7 +63,6 @@ export default function ScholarshipDetailModal({
           <DetailDescription
             title={'신청 일정'}
             content={applicationPeriod}
-            extra_title={'제출 서류'}
             extra_content={scholarship['제출서류 상세내용']}
           />
           <DetailDescription title={'지원자격'} content={eligibilityContent} />
@@ -66,7 +72,7 @@ export default function ScholarshipDetailModal({
           />
         </div>
 
-        <div className="mt-16 text-center">
+        <div className="mt-16 px-8 pb-8 text-center">
           {/* [수정] 새 창으로 홈페이지 열기 */}
           <a
             href={scholarship['홈페이지 주소']}
