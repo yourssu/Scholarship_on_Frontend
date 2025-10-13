@@ -1,6 +1,5 @@
 import { Scholarship } from '@/api/types/scholarship';
 import {
-  RecruitmentStatus,
   getStatusText,
   getStatusColor,
   getRecruitmentStatus,
@@ -8,13 +7,13 @@ import {
 import { StatusEllipseIcon } from './StatusEllipseIcon';
 
 interface ResultItemProps {
-  title: string;
-  recruitmentStatus: RecruitmentStatus;
-  facility: string;
+  item: Scholarship;
+  onClick?: (item: Scholarship) => void;
 }
 
 interface ResultListProps {
   scholarships: Scholarship[];
+  onItemClick?: (item: Scholarship) => void;
 }
 
 export function ResultListHeader() {
@@ -29,19 +28,24 @@ export function ResultListHeader() {
   );
 }
 
-export function ResultItem({
-  title,
-  recruitmentStatus,
-  facility,
-}: ResultItemProps) {
+export function ResultItem({ item, onClick }: ResultItemProps) {
+  const recruitmentStatus = getRecruitmentStatus(
+    item.모집시작일,
+    item.모집종료일,
+  );
+
   return (
-    <div className="flex h-[3rem] w-full items-center justify-between border-b-[0.03125rem] border-[#7B7B7B] text-left text-[0.875rem] leading-[1rem] font-normal tracking-[-0.0256rem] text-black">
+    <button
+      onClick={() => onClick?.(item)}
+      disabled={!onClick}
+      className="flex h-[3rem] w-full items-center justify-between border-b-[0.03125rem] border-[#7B7B7B] text-left text-[0.875rem] leading-[1rem] font-normal tracking-[-0.0256rem] text-black"
+    >
       <div className="mx-auto flex justify-center">
-        <p className="line-clamp-1">{title}</p>
+        <p className="line-clamp-1">{item.상품명}</p>
       </div>
       <div className="flex justify-between">
         <div className="mx-auto flex w-28 items-center justify-center">
-          <p className="line-clamp-1">{facility}</p>
+          <p className="line-clamp-1">{item.운영기관명}</p>
         </div>
         <div
           className="mx-auto flex w-16 items-center justify-center gap-0.5 pr-[0.25rem] text-[0.75rem] leading-[1.5625rem] font-medium"
@@ -52,11 +56,11 @@ export function ResultItem({
           {getStatusText(recruitmentStatus)}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
-export function ResultList({ scholarships }: ResultListProps) {
+export function ResultList({ scholarships, onItemClick }: ResultListProps) {
   return (
     <div className="mt-6 flex h-full w-full flex-col self-start">
       <div className="flex-shrink-0">
@@ -64,15 +68,7 @@ export function ResultList({ scholarships }: ResultListProps) {
       </div>
       <div>
         {scholarships.map(item => (
-          <ResultItem
-            key={item.번호}
-            title={item.상품명}
-            facility={item.운영기관명}
-            recruitmentStatus={getRecruitmentStatus(
-              item.모집시작일,
-              item.모집종료일,
-            )}
-          />
+          <ResultItem key={item.번호} item={item} onClick={onItemClick} />
         ))}
       </div>
     </div>

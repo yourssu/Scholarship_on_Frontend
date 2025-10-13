@@ -1,6 +1,8 @@
+import { ReactNode } from 'react';
+
 interface DetailDescriptionProp {
   title: string;
-  content: string;
+  content: ReactNode;
   extra_title?: string;
   extra_content?: string;
 }
