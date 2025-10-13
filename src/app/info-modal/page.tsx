@@ -23,10 +23,7 @@ export default function InfoModalPage() {
         />
       </div>
       <div className="flex flex-col gap-10">
-        <ShortDescription
-          name={'소득연계형 국가장학금'}
-          description={'소득연계형 국가장학금은 소득연계형 국가장학금입니다.'}
-        />
+        <ShortDescription name={'소득연계형 국가장학금'} />
         <DetailDescription
           title={'주관기관'}
           content={'한국 장학 재단'}

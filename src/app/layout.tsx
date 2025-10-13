@@ -23,7 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={pretendard.variable}>
-      <body className={`${pretendard.className} antialiased`}>{children}</body>
+      <body
+        className={`${pretendard.className} mx-auto max-w-[400px] antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

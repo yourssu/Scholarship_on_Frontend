@@ -1,8 +1,6 @@
-import { SVGProps } from 'react';
+import { IconProps } from '@/types/icon';
 
-interface StatusEllipseIconProps extends SVGProps<SVGSVGElement> {}
-
-export function StatusEllipseIcon({ fill, ...props }: StatusEllipseIconProps) {
+export function StatusEllipseIcon({ fill, ...props }: IconProps) {
   return (
     <svg
       width="5"

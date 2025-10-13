@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { cn } from '@/utils/cn';
 
 interface HeaderProps {
   rightElement?: React.ReactNode;
@@ -15,14 +16,14 @@ export default function Header({ rightElement, className = '' }: HeaderProps) {
   };
 
   return (
-    <header className={`sticky top-0 z-50 bg-white ${className}`}>
-      <div className="mx-auto flex h-16 max-w-7xl items-center">
+    <header className={cn('sticky top-0 z-50 bg-white', className)}>
+      <div className="mx-auto flex h-16 max-w-7xl items-center px-8">
         <button
           onClick={handleLogoClick}
           className="font-h2-20 hover:text-primary-500 flex items-center text-gray-900 transition-colors"
         >
           <img
-            src="/image/scholar_logo.webp"
+            src="/image/scholar_logo.png"
             alt="logo"
             className="h-[3.6875rem] w-auto"
           />
