@@ -146,9 +146,7 @@ export default function InfoListPage() {
   return (
     <div
       className={`flex grid-rows-[20px_1fr_20px] py-2 font-sans transition-all duration-300 ${
-        isExpanded
-          ? 'min-h-screen flex-col'
-          : 'h-screen flex-col overflow-hidden'
+        isExpanded ? 'min-h-screen flex-col' : 'h-[100dvh] flex-col'
       }`}
     >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-3">
