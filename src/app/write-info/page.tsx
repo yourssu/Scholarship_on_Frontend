@@ -322,7 +322,9 @@ export default function WriteInfoPage() {
               <a href="https://usaint.ddns.net/common/term" target="_blank">
                 [이용약관 전체보기]
               </a>
-              {/* <a href="">[민감정보 이용약관 전체보기]</a> */}
+              <a href="https://usaint.ddns.net/common/sensitive">
+                [민감정보 이용약관 전체보기]
+              </a>
             </div>
 
             {agreementError && (
