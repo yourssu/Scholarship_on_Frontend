@@ -5,6 +5,10 @@
   --foreground: #171717;
 }
 
+body {
+  background-color: #ffffff !important;
+}
+
 @utility font-h1-22 {
   font-weight: 700;
   font-size: 1.375rem; /* font-size: 22px → 1.375rem */
