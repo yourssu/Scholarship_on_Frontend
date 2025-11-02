@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import MixpanelProvider from '@/components/mixpanel/MixpanelProvider';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -26,7 +27,7 @@ export default function RootLayout({
       <body
         className={`${pretendard.className} mx-auto max-w-[400px] antialiased`}
       >
-        {children}
+        <MixpanelProvider>{children}</MixpanelProvider>
       </body>
     </html>
   );
