@@ -5,6 +5,7 @@ import { Button, Header, NaviButton } from '@/components';
 import { formatDateWithDay } from '../info-list/_utils/recruitmentUtils';
 import { DetailDescription } from '../info-modal/_components/DetailDescription';
 import { ShortDescription } from '../info-modal/_components/ScholarshipName';
+import { incrementUserProperty, trackEvent } from '@/lib/mixpanelClient';
 
 interface ScholarshipDetailModalProps {
   scholarship: Scholarship;
@@ -31,6 +32,18 @@ export default function ScholarshipDetailModal({
       <span>{scholarship['특정자격 상세내용']}</span>
     </div>
   );
+
+  const handleExternalLinkClick = () => {
+    // 믹스패널 이벤트 추적
+    trackEvent('clicked_external_link', {
+      scholarship_id: scholarship.번호,
+      scholarship_organization: scholarship.운영기관명,
+      external_link: scholarship['홈페이지 주소'],
+    });
+
+    // 믹스패널 사용자 속성 카운트 증가
+    incrementUserProperty('external_link_click_count');
+  };
 
   return (
     <div
@@ -78,6 +91,7 @@ export default function ScholarshipDetailModal({
             href={scholarship['홈페이지 주소']}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={handleExternalLinkClick}
           >
             <Button variant="primary" size="lg" showInfoText={true}>
               자세히 보러가기
