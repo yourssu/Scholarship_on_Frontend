@@ -136,7 +136,7 @@ export default function Home() {
             value={searchKeyword}
             onChange={e => setSearchKeyword(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="font-t2-14 flex-1 placeholder:text-neutral-500 focus:outline-none"
+            className="font-t2-14 flex-1 text-black placeholder:text-neutral-500 focus:outline-none"
             placeholder="장학금명/기관명을 입력해주세요."
           />
           <button onClick={handleSearch}>
@@ -154,7 +154,7 @@ export default function Home() {
       </section>
       <section className="mt-7 w-full px-3.5">
         <div className="flex h-[2.5rem] w-full items-center justify-between">
-          <p className="font-h5-17">장학금 공고 전체보기</p>
+          <p className="font-h5-17 text-black">장학금 공고 전체보기</p>
           {/* <select
             value={sortKey}
             onChange={e => setSortKey(e.target.value as SortType)}
