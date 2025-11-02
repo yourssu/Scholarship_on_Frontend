@@ -9,6 +9,7 @@ import { Scholarship } from '@/api/types/scholarship';
 import { searchScholarships } from '@/api/scholarshipAPI';
 import { ResultList } from '@/app/info-list/_components/ResultItem';
 import ScholarshipDetailModal from '@/app/_components/ScholarshipDetailModal';
+import { trackEvent } from '@/lib/mixpanelClient';
 
 const PAGE_SIZE = 15;
 
@@ -38,6 +39,11 @@ export default function SearchResults() {
   }, []);
 
   const handleItemClick = (item: Scholarship) => {
+    trackEvent('clicked_detail_list', {
+      scholarship_id: item.번호,
+      scholarship_organization: item.운영기관명,
+    });
+
     setSelectedScholarship(item);
     window.location.hash = 'detail';
   };
