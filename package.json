@@ -12,7 +12,8 @@
   "dependencies": {
     "clsx": "2.1.1",
     "ky": "^1.11.0",
-    "next": "15.5.3",
+    "mixpanel-browser": "^2.71.1",
+    "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tailwind-merge": "^3.3.1"
@@ -30,7 +31,8 @@
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "47.0.4"
   },
   "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
 }
