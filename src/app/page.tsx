@@ -10,6 +10,7 @@ import { Scholarship } from '@/api/types/scholarship';
 import { getScholarshipList } from '@/api/scholarshipAPI';
 import { UnderArrowIcon } from './info-list/_components/UnderArrowIcon';
 import ScholarshipDetailModal from './_components/ScholarshipDetailModal';
+import { incrementUserProperty, trackEvent } from '@/lib/mixpanelClient';
 
 // type SortType = 'popular' | 'latest' | 'suggest';
 const PAGE_SIZE = 15;
@@ -40,6 +41,11 @@ export default function Home() {
   }, []);
 
   const handleItemClick = (item: Scholarship) => {
+    trackEvent('clicked_detail_list', {
+      scholarship_id: item.번호,
+      scholarship_organization: item.운영기관명,
+    });
+
     setSelectedScholarship(item);
     window.location.hash = 'detail';
   };
@@ -48,6 +54,13 @@ export default function Home() {
     setSelectedScholarship(null);
     if (window.location.hash === '#detail') router.back();
   }, [router]);
+
+  const handleBannerClick = () => {
+    trackEvent('clicked_recommendation');
+    incrementUserProperty('recommendation_click_count');
+
+    router.push('/info-list');
+  };
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -136,7 +149,7 @@ export default function Home() {
           src={'/image/main-banner.png'}
           alt="메인 배너"
           className="mt-7 cursor-pointer"
-          onClick={() => router.push('/info-list')}
+          onClick={handleBannerClick}
         />
       </section>
       <section className="mt-7 w-full px-3.5">
