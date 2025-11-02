@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Scholarship, UserInfo } from '@/api/types/scholarship';
 import { getSuggestScholarships } from '@/api/scholarshipAPI';
 import ScholarshipDetailModal from '../_components/ScholarshipDetailModal';
+import { setUserProperties, trackEvent } from '@/lib/mixpanelClient';
 
 const PAGE_SIZE = 12;
 const PREVIEW_SIZE = 11;
@@ -62,9 +63,14 @@ export default function InfoListPage() {
         if (response.success) {
           setScholarships(prev => [...prev, ...response.data.scholarships]);
           setPage(prev => prev + 1);
+
           // 첫 페이지 로딩 시에만 totalCount를 설정
           if (currentPage === 0) {
-            setTotalCount(response.data.pagination.totalCount);
+            const count = response.data.pagination.totalCount;
+
+            setTotalCount(count);
+
+            setUserProperties({ recommended_scholarship_count: count });
           }
           setHasNextPage(response.data.pagination.hasNext);
         }
@@ -130,6 +136,11 @@ export default function InfoListPage() {
 
   // --- 모달 열기 핸들러 ---
   const handleItemClick = (item: Scholarship) => {
+    trackEvent('clicked_detail_list', {
+      scholarship_id: item.번호,
+      scholarship_organization: item.운영기관명,
+    });
+
     setSelectedScholarship(item);
     window.location.hash = 'detail'; // URL에 #detail 해시 추가
   };
