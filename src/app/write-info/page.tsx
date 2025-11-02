@@ -8,6 +8,11 @@ import WriteInfoInput from './_components/WriteInfoInput';
 import WriteInfoSelect from './_components/WriteInfoSelect';
 import { useRouter } from 'next/navigation';
 import { UserInfo } from '@/api/types/scholarship';
+import {
+  setSuperProperties,
+  setUserProperties,
+  trackEvent,
+} from '@/lib/mixpanelClient';
 
 const formFields: {
   key: keyof UserInfo;
@@ -169,6 +174,27 @@ export default function WriteInfoPage() {
 
   const handleSaveAndNavigate = () => {
     if (!validate()) return;
+
+    const eventProperties = {
+      school: userInfo.school,
+      grade: userInfo.classOfSchool, // UserInfo의 'classOfSchool' -> 'grade'
+      major: userInfo.majorOfSchool, // UserInfo의 'majorOfSchool' -> 'major'
+      region: userInfo.location, // UserInfo의 'location' -> 'region'
+      income: parseInt(userInfo.levelOfIncome.replace('분위', ''), 10) || 0, // '1분위' -> 1 (int)
+      gpa: parseFloat(userInfo.grade) || 0.0, // '3.8' -> 3.8 (float)
+    };
+
+    if (isDataSaved) {
+      // '수정 완료'
+      trackEvent('clicked_edit_complete', eventProperties);
+    } else {
+      // '입력 완료'
+      trackEvent('clicked_input_complete', eventProperties);
+    }
+
+    setUserProperties(eventProperties);
+
+    setSuperProperties(eventProperties);
 
     USER_INFO_KEYS.forEach(key => {
       localStorage.setItem(key, userInfo[key]);
