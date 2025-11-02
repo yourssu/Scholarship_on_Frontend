@@ -1,9 +1,9 @@
-import mixpanel, { Dict, Mixpanel } from 'mixpanel-browser';
+import mixpanel, { Dict } from 'mixpanel-browser';
 
 let isMixpanelInitialized = false;
 
 export const initMixpanel = () => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && !isMixpanelInitialized) {
     mixpanel.init('5e00eab31e7e6cec7242fba4445ef9f4', {
       debug: process.env.NODE_ENV !== 'production',
       track_pageview: false,
