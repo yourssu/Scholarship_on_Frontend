@@ -1,5 +1,6 @@
 import { useState, KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { trackEvent } from '@/lib/mixpanelClient';
 
 interface UseSearchKeyProps {
   initialSearchKeyword?: string;
@@ -14,7 +15,13 @@ export const useSearchKey = ({
     useState<string>(initialSearchKeyword);
 
   const handleSearch = () => {
-    if (searchKeyword.trim() !== '') {
+    const trimmedKeyword = searchKeyword.trim();
+
+    if (trimmedKeyword !== '') {
+      trackEvent('clicked_search', {
+        search_keyword: trimmedKeyword,
+      });
+
       router.push(
         `/search-list?keyword=${encodeURIComponent(searchKeyword.trim())}`,
       );
