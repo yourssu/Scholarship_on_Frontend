@@ -1,16 +1,46 @@
 import mixpanel, { Dict } from 'mixpanel-browser';
 
+const PROD_TOKEN = '187389dc93d588d73f67c285ba91dd2b';
+const TEST_TOKEN = '5e00eab31e7e6cec7242fba4445ef9f4';
+
+const PROD_HOST = 'scholarship-on-dev.pages.dev';
+// const TEST_HOST = 'scholarship-on-frontend.pages.dev';
+
 let isMixpanelInitialized = false;
 
 export const initMixpanel = () => {
-  if (typeof window !== 'undefined' && !isMixpanelInitialized) {
-    mixpanel.init('5e00eab31e7e6cec7242fba4445ef9f4', {
-      debug: process.env.NODE_ENV !== 'production',
+  if (typeof window === 'undefined' || isMixpanelInitialized) {
+    return;
+  }
+
+  const currentHost = window.location.hostname;
+  let tokenToUse: string;
+  let isDebugMode = true;
+
+  if (currentHost === PROD_HOST) {
+    // 운영 URL일 경우
+    tokenToUse = PROD_TOKEN;
+    isDebugMode = false; // 운영 환경에서는 디버그 모드 끔
+  } else {
+    // 테스트 URL 또는 localhost 등 기타 환경일 경우
+    tokenToUse = TEST_TOKEN;
+
+    mixpanel.init(tokenToUse, {
+      debug: isDebugMode, // 동적으로 설정된 디버그 모드 사용
       track_pageview: false,
       persistence: 'localStorage',
     });
     isMixpanelInitialized = true;
   }
+
+  // if (typeof window !== 'undefined' && !isMixpanelInitialized) {
+  //   mixpanel.init('5e00eab31e7e6cec7242fba4445ef9f4', {
+  //     debug: process.env.NODE_ENV !== 'production',
+  //     track_pageview: false,
+  //     persistence: 'localStorage',
+  //   });
+  //   isMixpanelInitialized = true;
+  // }
 };
 
 /**
