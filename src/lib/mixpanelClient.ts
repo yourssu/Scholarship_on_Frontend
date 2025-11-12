@@ -24,14 +24,14 @@ export const initMixpanel = () => {
   } else {
     // 테스트 URL 또는 localhost 등 기타 환경일 경우
     tokenToUse = TEST_TOKEN;
-
-    mixpanel.init(tokenToUse, {
-      debug: isDebugMode, // 동적으로 설정된 디버그 모드 사용
-      track_pageview: false,
-      persistence: 'localStorage',
-    });
-    isMixpanelInitialized = true;
   }
+
+  mixpanel.init(tokenToUse, {
+    debug: isDebugMode, // 동적으로 설정된 디버그 모드 사용
+    track_pageview: false,
+    persistence: 'localStorage',
+  });
+  isMixpanelInitialized = true;
 
   // if (typeof window !== 'undefined' && !isMixpanelInitialized) {
   //   mixpanel.init('5e00eab31e7e6cec7242fba4445ef9f4', {
